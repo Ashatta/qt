@@ -10,18 +10,18 @@
 class ClockHand : public QImage
 {
 public:
-    ClockHand(const QString &picFile, qreal x, qreal y)
-        : QImage(picFile)
-        , rotationCenter(x, y) 
-        , placementPoint(-x, -y)
-    {}
+	ClockHand(QString const &picFile, qreal const x, qreal const y)
+			: QImage(picFile)
+			, mRotationCenter(x, y)
+			, mPlacementPoint(-x, -y)
+	{}
 
-    QPointF rCenter() { return rotationCenter; }
-    QPointF place() { return placementPoint; }
+	QPointF rCenter() const { return mRotationCenter; }
+	QPointF place() const { return mPlacementPoint; }
 
 protected:
-    QPointF rotationCenter;
-    QPointF placementPoint;
+	QPointF mRotationCenter;
+	QPointF mPlacementPoint;
 };
 
 /** ClockPic struct contains an image of clock face and
@@ -29,19 +29,19 @@ protected:
  */
 struct ClockPic
 {
-    QImage face;
+	QImage mFace;
 
-    ClockHand sechand;
-    ClockHand minhand;
-    ClockHand hourhand;
+	ClockHand mSecHand;
+	ClockHand mMinHand;
+	ClockHand mHourHand;
 
-    ClockPic(const QString &faceFile, const ClockHand &shand,
-             const ClockHand &mhand, const ClockHand &hhand)
-        : face(faceFile)
-        , sechand(shand)
-        , minhand(mhand)
-        , hourhand(hhand)
-    {}
+	ClockPic(QString const &faceFile, ClockHand const &shand
+			, ClockHand const &mhand, ClockHand const &hhand)
+			: mFace(faceFile)
+			, mSecHand(shand)
+			, mMinHand(mhand)
+			, mHourHand(hhand)
+	{}
 };
 
 /** AnalogClock class as a widget that represents a simple
@@ -50,14 +50,15 @@ struct ClockPic
  */
 class AnalogClock : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    AnalogClock(const ClockPic &image, QWidget* parent = 0);
-protected:
-    ClockPic clock; ///< Image of the clock and of the three hands of it
+	AnalogClock(ClockPic const &image, QWidget* parent = 0);
 
-    /** paintEvent is called every second and repaints all
-     *  components of the clock
-     */ 
-    void paintEvent(QPaintEvent *);
+protected:
+	/** paintEvent is called every second and repaints all
+	 *  components of the clock
+	 */
+	void paintEvent(QPaintEvent *);
+
+	ClockPic mClock;  ///< Image of the clock and of the three hands of it
 };
